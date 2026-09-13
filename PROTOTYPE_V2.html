@@ -328,6 +328,8 @@
             height: 350px;
             gap: 12px;
             padding: 20px 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
         }
 
         .bar-wrapper {
@@ -336,23 +338,26 @@
             align-items: center;
             gap: 12px;
             flex: 1;
+            height: 100%;
         }
 
         .bar {
             width: 100%;
-            background: linear-gradient(180deg, #FF6B35, #FFA366);
+            max-width: 60px;
+            background: linear-gradient(to top, #FF6B35, #FFA366);
             border-radius: 12px 12px 0 0;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
-            animation: grow 0.8s ease-out backwards;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+            animation: growBar 0.8s ease-out backwards;
+            min-height: 20px;
         }
 
         .bar:hover {
             transform: scaleY(1.05);
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.5);
-            filter: brightness(1.1);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
+            filter: brightness(1.15);
         }
 
         .bar-1 { height: 85%; animation-delay: 0.1s; }
@@ -361,9 +366,17 @@
         .bar-4 { height: 55%; animation-delay: 0.4s; }
         .bar-5 { height: 45%; animation-delay: 0.5s; }
 
-        @keyframes grow {
-            from { height: 0; opacity: 0; }
-            to { height: var(--height); opacity: 1; }
+        @keyframes growBar {
+            from {
+                height: 0;
+                opacity: 0;
+                transform: scaleY(0);
+            }
+            to {
+                height: auto;
+                opacity: 1;
+                transform: scaleY(1);
+            }
         }
 
         .bar-label {
@@ -371,6 +384,7 @@
             color: #a0a0a0;
             text-align: center;
             margin-top: 10px;
+            font-weight: 600;
         }
 
         /* PIE CHARTS GRID */
