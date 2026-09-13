@@ -336,14 +336,15 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            justify-content: flex-end;
+            gap: 15px;
             flex: 1;
             height: 100%;
+            min-width: 50px;
         }
 
         .bar {
-            width: 100%;
-            max-width: 60px;
+            width: 50px;
             background: linear-gradient(to top, #FF6B35, #FFA366);
             border-radius: 12px 12px 0 0;
             cursor: pointer;
@@ -370,12 +371,10 @@
             from {
                 height: 0;
                 opacity: 0;
-                transform: scaleY(0);
             }
             to {
-                height: auto;
+                height: var(--bar-height);
                 opacity: 1;
-                transform: scaleY(1);
             }
         }
 
@@ -383,8 +382,9 @@
             font-size: 12px;
             color: #a0a0a0;
             text-align: center;
-            margin-top: 10px;
             font-weight: 600;
+            white-space: nowrap;
+            width: 100%;
         }
 
         /* PIE CHARTS GRID */
@@ -705,23 +705,23 @@
                 <p class="chart-description">Como cada tema perfoma nos seus posts — Reels, posts e carrosséis</p>
                 <div class="bars-container">
                     <div class="bar-wrapper">
-                        <div class="bar bar-1"></div>
+                        <div class="bar bar-1" style="--bar-height: 85%;"></div>
                         <div class="bar-label">Marketing</div>
                     </div>
                     <div class="bar-wrapper">
-                        <div class="bar bar-2"></div>
+                        <div class="bar bar-2" style="--bar-height: 65%;"></div>
                         <div class="bar-label">Design</div>
                     </div>
                     <div class="bar-wrapper">
-                        <div class="bar bar-3"></div>
+                        <div class="bar bar-3" style="--bar-height: 75%;"></div>
                         <div class="bar-label">Growth</div>
                     </div>
                     <div class="bar-wrapper">
-                        <div class="bar bar-4"></div>
+                        <div class="bar bar-4" style="--bar-height: 55%;"></div>
                         <div class="bar-label">Social</div>
                     </div>
                     <div class="bar-wrapper">
-                        <div class="bar bar-5"></div>
+                        <div class="bar bar-5" style="--bar-height: 45%;"></div>
                         <div class="bar-label">Branding</div>
                     </div>
                 </div>
