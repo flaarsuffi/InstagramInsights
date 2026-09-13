@@ -1,0 +1,74 @@
+name: Update Board on Issue Comments
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  update-status:
+    runs-on: ubuntu-latest
+    if: contains(github.event.comment.body, '/in-progress') || contains(github.event.comment.body, '/done')
+
+    permissions:
+      issues: write
+      contents: read
+
+    steps:
+      - name: Check if comment contains /in-progress
+        id: check-in-progress
+        run: |
+          if echo "${{ github.event.comment.body }}" | grep -q "/in-progress"; then
+            echo "status=in-progress" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check if comment contains /done
+        id: check-done
+        run: |
+          if echo "${{ github.event.comment.body }}" | grep -q "/done"; then
+            echo "status=done" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set label to in-progress
+        if: steps.check-in-progress.outputs.status == 'in-progress'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.removeLabel({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'backlog'
+            }).catch(() => {});
+
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['in-progress']
+            });
+
+      - name: Set label to done
+        if: steps.check-done.outputs.status == 'done'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.removeLabel({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'in-progress'
+            }).catch(() => {});
+
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['done']
+            });
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ Issue marcada como concluída!'
+            });
