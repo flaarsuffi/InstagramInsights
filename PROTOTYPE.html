@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Insights - Protótipo Visual</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        /* HEADER */
+        header {
+            background: white;
+            padding: 20px 40px;
+            border-bottom: 3px solid #FF6B35;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #004E89;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #FF6B35;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e55a2b;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #e8e8e8;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        /* HEADLINE */
+        .headline {
+            background: linear-gradient(135deg, #004E89 0%, #003d6a 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .headline h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .headline p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        /* DASHBOARD CARDS */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-top: 4px solid #FF6B35;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(255,107,53,0.15);
+        }
+
+        .card-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #FF6B35;
+            margin: 15px 0;
+        }
+
+        .card-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* SECTION TITLE */
+        .section-title {
+            font-size: 24px;
+            color: #004E89;
+            margin-bottom: 20px;
+            font-weight: bold;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #FF6B35;
+        }
+
+        /* CHART CONTAINER */
+        .chart-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        /* MOCK CHART */
+        .mock-chart {
+            height: 300px;
+            background: linear-gradient(to bottom, rgba(255,107,53,0.1), rgba(0,78,137,0.1));
+            border-radius: 4px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 20px;
+            gap: 15px;
+        }
+
+        .bar {
+            background: linear-gradient(to top, #FF6B35, #FFA366);
+            border-radius: 4px 4px 0 0;
+            flex: 1;
+            position: relative;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .bar:hover {
+            filter: brightness(1.1);
+        }
+
+        .bar-label {
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .bar-1 { height: 85%; }
+        .bar-2 { height: 65%; }
+        .bar-3 { height: 75%; }
+        .bar-4 { height: 55%; }
+        .bar-5 { height: 45%; }
+
+        /* GRID 2x2 */
+        .grid-2x2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .pie-container {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .pie-chart {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(#FF6B35 0deg 144deg, #004E89 144deg 252deg, #FFA366 252deg 360deg);
+            margin: 20px auto;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .pie-legend {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 13px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 2px;
+        }
+
+        /* TABLE */
+        .table-container {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead {
+            background: #004E89;
+            color: white;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-good {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-warning {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .status-bad {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        /* RECOMMENDATIONS */
+        .recommendations {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .recommendation-item {
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #FF6B35;
+            background: #fffaf7;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .recommendation-item:hover {
+            background: #fff5ed;
+            transform: translateX(4px);
+        }
+
+        .rec-icon {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        .rec-title {
+            font-weight: bold;
+            color: #004E89;
+            margin-bottom: 5px;
+        }
+
+        .rec-desc {
+            font-size: 13px;
+            color: #666;
+            margin-left: 30px;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-size: 12px;
+            border-top: 1px solid #eee;
+            margin-top: 50px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .grid-2x2 {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .headline h1 {
+                font-size: 24px;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="logo">📊 Instagram Insights</div>
+        <div class="header-actions">
+            <button class="btn btn-secondary">📅 Período</button>
+            <button class="btn btn-primary">🔄 Atualizar</button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <!-- HEADLINE -->
+        <div class="headline">
+            <h1>Seu Público está em São Paulo</h1>
+            <p>👥 Principalmente mulheres de 18-24 anos | 📊 Últimos 30 dias</p>
+        </div>
+
+        <!-- DASHBOARD CARDS -->
+        <div class="dashboard">
+            <div class="card">
+                <div class="card-label">📊 Impressões</div>
+                <div class="card-value">245.890</div>
+            </div>
+            <div class="card">
+                <div class="card-label">👥 Reach</div>
+                <div class="card-value">125.430</div>
+            </div>
+            <div class="card">
+                <div class="card-label">⏰ Melhor Horário</div>
+                <div class="card-value">19h-21h</div>
+            </div>
+            <div class="card">
+                <div class="card-label">⭐ Top Post</div>
+                <div class="card-value">2.5k eng.</div>
+            </div>
+        </div>
+
+        <!-- SECTION 1: PERFORMANCE POR NICHO -->
+        <div class="chart-container">
+            <h2 class="section-title">📈 Performance por Nicho</h2>
+            <p style="margin-bottom: 20px; color: #666; font-size: 14px;">Como cada tema perfoma nos seus posts</p>
+            <div class="mock-chart">
+                <div class="bar bar-1"><div class="bar-label">Marketing</div></div>
+                <div class="bar bar-2"><div class="bar-label">Design</div></div>
+                <div class="bar bar-3"><div class="bar-label">Growth</div></div>
+                <div class="bar bar-4"><div class="bar-label">Social</div></div>
+                <div class="bar bar-5"><div class="bar-label">Branding</div></div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: SEGMENTAÇÃO 2x2 -->
+        <h2 class="section-title">🎯 Segmentação de Público por Nicho</h2>
+        <div class="grid-2x2">
+            <div class="pie-container">
+                <h3 style="color: #004E89; margin-bottom: 10px;">MARKETING</h3>
+                <div class="pie-chart"></div>
+                <div class="pie-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #FF6B35;"></div>
+                        <span>SP: 40%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #004E89;"></div>
+                        <span>RJ: 20%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pie-container">
+                <h3 style="color: #004E89; margin-bottom: 10px;">DESIGN</h3>
+                <div class="pie-chart"></div>
+                <div class="pie-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #FF6B35;"></div>
+                        <span>SP: 30%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #004E89;"></div>
+                        <span>RJ: 35%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pie-container">
+                <h3 style="color: #004E89; margin-bottom: 10px;">GROWTH</h3>
+                <div class="pie-chart"></div>
+                <div class="pie-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #FF6B35;"></div>
+                        <span>SP: 50%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #004E89;"></div>
+                        <span>RJ: 18%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pie-container">
+                <h3 style="color: #004E89; margin-bottom: 10px;">SOCIAL MEDIA</h3>
+                <div class="pie-chart"></div>
+                <div class="pie-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #FF6B35;"></div>
+                        <span>SP: 45%</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #004E89;"></div>
+                        <span>RJ: 22%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: TABELA DE TESTES -->
+        <div class="chart-container" style="margin-top: 40px;">
+            <h2 class="section-title">🧪 Análise de Testes</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Teste</th>
+                            <th>Impressões</th>
+                            <th>Engajamento</th>
+                            <th>Resultado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#marketing #agencia</td>
+                            <td>500</td>
+                            <td>50</td>
+                            <td><span class="status-badge status-bad">❌ Baixo</span></td>
+                        </tr>
+                        <tr>
+                            <td>#MarketingDigital #Growth</td>
+                            <td>800</td>
+                            <td>35</td>
+                            <td><span class="status-badge status-good">✅ Melhor</span></td>
+                        </tr>
+                        <tr>
+                            <td>Post texto longo</td>
+                            <td>450</td>
+                            <td>65</td>
+                            <td><span class="status-badge status-good">✅ Melhor</span></td>
+                        </tr>
+                        <tr>
+                            <td>Post texto curto</td>
+                            <td>320</td>
+                            <td>25</td>
+                            <td><span class="status-badge status-bad">❌ Ruim</span></td>
+                        </tr>
+                        <tr>
+                            <td>Reels (Conteúdo)</td>
+                            <td>1.200</td>
+                            <td>150</td>
+                            <td><span class="status-badge status-good">⭐ Top</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SECTION 4: RECOMENDAÇÕES -->
+        <div style="margin-top: 40px;">
+            <h2 class="section-title">🎯 Recomendações para Próximos Posts</h2>
+            <div class="recommendations">
+                <div class="recommendation-item">
+                    <div class="rec-title">✅ Foque em REELS sobre MARKETING</div>
+                    <div class="rec-desc">Seu público pega melhor em vídeo curto — essa combinação teve 1.2k impressões</div>
+                </div>
+
+                <div class="recommendation-item">
+                    <div class="rec-title">✅ Melhor horário: 19h-21h (Terça/Quinta)</div>
+                    <div class="rec-desc">Mais engajamento nesse período — dados de 30 últimos dias</div>
+                </div>
+
+                <div class="recommendation-item">
+                    <div class="rec-title">✅ Use hashtags genéricas > específicas</div>
+                    <div class="rec-desc">#MarketingDigital funcionou 60% melhor que #marketing #agencia</div>
+                </div>
+
+                <div class="recommendation-item">
+                    <div class="rec-title">⚠️ Abandone textos muito curtos</div>
+                    <div class="rec-desc">Seu público prefere explicação detalhada — textos longos tiveram 2.6x mais engajamento</div>
+                </div>
+
+                <div class="recommendation-item">
+                    <div class="rec-title">🧪 Teste CARROSSEL sobre DESIGN</div>
+                    <div class="rec-desc">Seu público pede esse conteúdo (trending) — experimente nos próximos 2 posts</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>📊 Instagram Insights | Análise gerada em 12 de Setembro de 2026</p>
+        <p>Dados coletados via Meta Business API | © 2026</p>
+    </footer>
+</body>
+</html>
