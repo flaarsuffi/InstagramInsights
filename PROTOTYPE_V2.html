@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Insights - Moderno & Dinâmico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #1a1a4d 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ANIMATED BACKGROUND */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+        }
+
+        .blob-1 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(45deg, #FF6B35, #FFA366);
+            top: -100px;
+            left: -100px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .blob-2 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #00D4FF, #0099FF);
+            bottom: -50px;
+            right: -50px;
+            animation: float 10s ease-in-out infinite 2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        /* HEADER */
+        header {
+            background: rgba(15, 12, 41, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(255, 107, 53, 0.2);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FF6B35, #00D4FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B35, #FFA366);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(0, 212, 255, 0.1));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            margin-bottom: 60px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #FF6B35, #00D4FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 16px;
+            color: #a0a0a0;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .badge {
+            background: rgba(255, 107, 53, 0.15);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            color: #FF6B35;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        /* STATS GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(0, 212, 255, 0.05));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.2), transparent);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 107, 53, 0.5);
+            box-shadow: 0 12px 30px rgba(255, 107, 53, 0.2);
+        }
+
+        .stat-card:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .stat-value {
+            font-size: 40px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF6B35, #FFA366);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 15px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* SECTION */
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #FF6B35, #00D4FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* CHART CARD */
+        .chart-card {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(0, 212, 255, 0.05));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .chart-description {
+            font-size: 14px;
+            color: #a0a0a0;
+            margin-bottom: 30px;
+        }
+
+        /* ANIMATED BARS */
+        .bars-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 350px;
+            gap: 12px;
+            padding: 20px 0;
+        }
+
+        .bar-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .bar {
+            width: 100%;
+            background: linear-gradient(180deg, #FF6B35, #FFA366);
+            border-radius: 12px 12px 0 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            animation: grow 0.8s ease-out backwards;
+        }
+
+        .bar:hover {
+            transform: scaleY(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .bar-1 { height: 85%; animation-delay: 0.1s; }
+        .bar-2 { height: 65%; animation-delay: 0.2s; }
+        .bar-3 { height: 75%; animation-delay: 0.3s; }
+        .bar-4 { height: 55%; animation-delay: 0.4s; }
+        .bar-5 { height: 45%; animation-delay: 0.5s; }
+
+        @keyframes grow {
+            from { height: 0; opacity: 0; }
+            to { height: var(--height); opacity: 1; }
+        }
+
+        .bar-label {
+            font-size: 12px;
+            color: #a0a0a0;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* PIE CHARTS GRID */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .pie-card {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(0, 212, 255, 0.05));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .pie-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 53, 0.3);
+        }
+
+        .pie-card h3 {
+            color: #00D4FF;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pie-chart {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: conic-gradient(#FF6B35 0deg 135deg, #00D4FF 135deg 225deg, #FFA366 225deg 360deg);
+            margin: 0 auto 20px;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
+            animation: spin 0.8s ease-out;
+        }
+
+        @keyframes spin {
+            from { transform: scale(0.5) rotateZ(-90deg); opacity: 0; }
+            to { transform: scale(1) rotateZ(0deg); opacity: 1; }
+        }
+
+        .pie-legend {
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-start;
+            margin-top: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #a0a0a0;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        /* TABLE */
+        .table-card {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(0, 212, 255, 0.05));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead {
+            border-bottom: 2px solid rgba(255, 107, 53, 0.3);
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 700;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(0, 212, 255, 0.05));
+            color: #00D4FF;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #e0e0e0;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 107, 53, 0.1);
+            border-left: 3px solid #FF6B35;
+            padding-left: 12px;
+        }
+
+        .badge-status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-good {
+            background: rgba(0, 255, 100, 0.2);
+            color: #00FF64;
+            border: 1px solid rgba(0, 255, 100, 0.4);
+        }
+
+        .badge-warning {
+            background: rgba(255, 165, 0, 0.2);
+            color: #FFA500;
+            border: 1px solid rgba(255, 165, 0, 0.4);
+        }
+
+        .badge-bad {
+            background: rgba(255, 100, 100, 0.2);
+            color: #FF6464;
+            border: 1px solid rgba(255, 100, 100, 0.4);
+        }
+
+        /* RECOMMENDATIONS */
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .rec-card {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(0, 212, 255, 0.08));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rec-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .rec-card:hover::before {
+            left: 100%;
+        }
+
+        .rec-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 107, 53, 0.6);
+            box-shadow: 0 12px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .rec-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .rec-title {
+            font-weight: 700;
+            font-size: 15px;
+            color: #00D4FF;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .rec-desc {
+            font-size: 13px;
+            color: #a0a0a0;
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 80px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            header {
+                padding: 15px 20px;
+                flex-wrap: wrap;
+            }
+
+            .hero {
+                padding: 40px 20px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-badges {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ANIMATED BACKGROUND -->
+    <div class="bg-animation">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <span class="logo-icon">📊</span>
+            Instagram Insights
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-secondary">📅 Filtrar</button>
+            <button class="btn btn-primary">🔄 Atualizar Análise</button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <!-- HERO SECTION -->
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Seu Público Está em São Paulo 📍</h1>
+                <p>Análise completa de 47 posts | Últimos 30 dias | 245.8k impressões totais</p>
+                <div class="hero-badges">
+                    <span class="badge">👥 65% Mulheres</span>
+                    <span class="badge">🎂 18-24 anos</span>
+                    <span class="badge">⭐ Engajamento +23%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-label">Impressões</div>
+                <div class="stat-value">245.8k</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-label">Reach</div>
+                <div class="stat-value">125.4k</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏰</div>
+                <div class="stat-label">Melhor Horário</div>
+                <div class="stat-value">19h-21h</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-label">Top Post</div>
+                <div class="stat-value">2.5k eng</div>
+            </div>
+        </div>
+
+        <!-- PERFORMANCE POR NICHO -->
+        <div class="section">
+            <h2 class="section-title">📈 Performance por Nicho</h2>
+            <div class="chart-card">
+                <p class="chart-description">Como cada tema perfoma nos seus posts — Reels, posts e carrosséis</p>
+                <div class="bars-container">
+                    <div class="bar-wrapper">
+                        <div class="bar bar-1"></div>
+                        <div class="bar-label">Marketing</div>
+                    </div>
+                    <div class="bar-wrapper">
+                        <div class="bar bar-2"></div>
+                        <div class="bar-label">Design</div>
+                    </div>
+                    <div class="bar-wrapper">
+                        <div class="bar bar-3"></div>
+                        <div class="bar-label">Growth</div>
+                    </div>
+                    <div class="bar-wrapper">
+                        <div class="bar bar-4"></div>
+                        <div class="bar-label">Social</div>
+                    </div>
+                    <div class="bar-wrapper">
+                        <div class="bar bar-5"></div>
+                        <div class="bar-label">Branding</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEGMENTAÇÃO -->
+        <div class="section">
+            <h2 class="section-title">🎯 Segmentação de Público por Nicho</h2>
+            <p style="color: #a0a0a0; margin-bottom: 30px; font-size: 14px;">Qual público vem de qual conteúdo — veja a distribuição por região e tema</p>
+            <div class="charts-grid">
+                <div class="pie-card">
+                    <h3>Marketing</h3>
+                    <div class="pie-chart"></div>
+                    <div class="pie-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #FF6B35;"></div>
+                            <span>SP: 40%</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #00D4FF;"></div>
+                            <span>RJ: 20%</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #FFA366;"></div>
+                            <span>Outros: 40%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pie-card">
+                    <h3>Design</h3>
+                    <div class="pie-chart"></div>
+                    <div class="pie-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #FF6B35;"></div>
+                            <span>SP: 30%</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #00D4FF;"></div>
+                            <span>RJ: 35%</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #FFA366;"></div>
+                            <span>Outros: 35%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pie-card">
+                    <h3>Growth</h3>
+                    <div class="pie-chart"></div>
+                    <div class="pie-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #FF6B35;"></div>
+                            <span>SP: 50%</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #00D4FF;"></div>
+                            <span>RJ: 18%</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #FFA366;"></div>
+                            <span>Outros: 32%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pie-card">
+                    <h3>Social Media</h3>
+                    <div class="pie-chart"></div>
+                    <div class="pie-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #FF6B35;"></div>
+                            <span>SP: 45%</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #00D4FF;"></div>
+                            <span>RJ: 22%</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #FFA366;"></div>
+                            <span>Outros: 33%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABELA DE TESTES -->
+        <div class="section">
+            <h2 class="section-title">🧪 Análise de Testes</h2>
+            <p style="color: #a0a0a0; margin-bottom: 20px; font-size: 14px;">Comparando hashtags, textos e formatos — veja o que funcionou melhor</p>
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Teste</th>
+                            <th>Impressões</th>
+                            <th>Engajamento</th>
+                            <th>Taxa</th>
+                            <th>Resultado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#marketing #agencia</td>
+                            <td>500</td>
+                            <td>50</td>
+                            <td>10%</td>
+                            <td><span class="badge-status badge-bad">❌ Baixo</span></td>
+                        </tr>
+                        <tr>
+                            <td>#MarketingDigital #Growth</td>
+                            <td>800</td>
+                            <td>35</td>
+                            <td>4.4%</td>
+                            <td><span class="badge-status badge-good">✅ Melhor</span></td>
+                        </tr>
+                        <tr>
+                            <td>Post texto longo</td>
+                            <td>450</td>
+                            <td>65</td>
+                            <td>14.4%</td>
+                            <td><span class="badge-status badge-good">✅ Melhor</span></td>
+                        </tr>
+                        <tr>
+                            <td>Post texto curto</td>
+                            <td>320</td>
+                            <td>25</td>
+                            <td>7.8%</td>
+                            <td><span class="badge-status badge-bad">❌ Ruim</span></td>
+                        </tr>
+                        <tr>
+                            <td>Reels (Conteúdo)</td>
+                            <td>1.200</td>
+                            <td>150</td>
+                            <td>12.5%</td>
+                            <td><span class="badge-status badge-good">⭐ Top</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- RECOMENDAÇÕES -->
+        <div class="section">
+            <h2 class="section-title">🚀 Recomendações para Próximos Posts</h2>
+            <div class="recommendations-grid">
+                <div class="rec-card">
+                    <div class="rec-icon">✅</div>
+                    <div class="rec-title">Foque em REELS</div>
+                    <div class="rec-desc">Seu público pega muito melhor em vídeo curto. Reels tiveram 1.2k impressões vs 450 em posts estáticos.</div>
+                </div>
+
+                <div class="rec-card">
+                    <div class="rec-icon">⏰</div>
+                    <div class="rec-title">Poste às 19h-21h</div>
+                    <div class="rec-desc">Esse é o horário de pico. Terça e quinta têm ainda mais engajamento. Agende posts pra esses períodos.</div>
+                </div>
+
+                <div class="rec-card">
+                    <div class="rec-icon">🏷️</div>
+                    <div class="rec-title">Hashtags Genéricas</div>
+                    <div class="rec-desc">#MarketingDigital funcionou 60% melhor que #marketing #agencia. Use menos, mas mais efetivas.</div>
+                </div>
+
+                <div class="rec-card">
+                    <div class="rec-icon">📝</div>
+                    <div class="rec-title">Textos Longos</div>
+                    <div class="rec-desc">Seu público prefere explicação detalhada. Textos longos tiveram 2.6x mais engajamento que textos curtos.</div>
+                </div>
+
+                <div class="rec-card">
+                    <div class="rec-icon">📸</div>
+                    <div class="rec-title">Teste CARROSSEL</div>
+                    <div class="rec-desc">Seu público pede conteúdo em carrossel sobre DESIGN. Experimente nos próximos 2 posts.</div>
+                </div>
+
+                <div class="rec-card">
+                    <div class="rec-icon">💡</div>
+                    <div class="rec-title">Diversifique Nichos</div>
+                    <div class="rec-desc">Marketing tem 245 imp/post. Design tem 145 imp/post. Experimente 60% Marketing, 40% Design.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>📊 Instagram Insights | Análise gerada em 12 de Setembro de 2026 | Dados coletados via Meta Business API</p>
+    </footer>
+</body>
+</html>
